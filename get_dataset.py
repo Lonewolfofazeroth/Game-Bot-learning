@@ -3,6 +3,7 @@ This file will get the dataset.
 
 Author: Arda Mavi
 """
+
 import os
 import pickle
 
@@ -71,7 +72,7 @@ def get_dataset(dataset_path='Data/Train_Data'):
                 count_category[1] = current_choice
                 if count_category[1] not in z_dataset:
                     z_dataset.append(count_category[1])
-            y_dataset.append(count_category[0])
+            y_dataset.append(count_category[0]
     with open('listfile.data', 'wb') as filehandle:
         # store the data as binary data stream
         pickle.dump(z_dataset, filehandle)
