@@ -2,8 +2,7 @@
 This is the main file for the AI.
 
 Author: Arda Mavi
-"""
-import pickle
+"""import pickle
 
 import time
 import numpy as np
@@ -43,10 +42,8 @@ def main():
             ]  # Get first 3 channel from image as numpy array.
         # 4 channel(PNG) to 3 channel(JPG)
         y_ai = predict(model, screen)
-        print(y_ai)
-        y_ai = places_list[y_ai]
-        y_ai = [int(i) for i in y_ai]
-        print(y_ai)
+
+        # Check if the action is safe
         if y_ai == [0, 0, 0, 0]:
             # Not action
             continue
@@ -55,26 +52,44 @@ def main():
             key = get_key(y_ai[3])
             if y_ai[2] == 1:
                 # Press:
-                press(key)
+                if key in ["esc", "q"]:
+                    print("Exiting...")
+                    exit()
+                else:
+                    press(key)
             else:
                 # Release:
                 release(key)
         elif y_ai[2] == 0 and y_ai[3] == 0:
             # Click action.
-            click(y_ai[0], y_ai[1])
+            x, y = y_ai[0], y_ai[1]
+            if x < 0 or y < 0:
+                # Not safe to click
+                continue
+            else:
+                click(x, y)
 
         # else:
         #     # Mouse and keyboard action.
         #     # Mouse:
-        #     click(int(y_ai[0]), int(y_ai[1]))
+        #     x, y = y_ai[0], y_ai[1]
+        #     if x < 0 or y < 0:
+        #         # Not safe to click
+        #         continue
+        #     else:
+        #         click(x, y)
         #     # Keyboard:
         #     key = get_key(int(y_ai[3]))
         #     if y_ai[2] == 1:
         #         # Press:
-        #         press(key)
+        #         if key in ["esc", "q"]:
+        #             print("Exiting...")
+        #             exit()
+        #         else:
+        #             press(key)
         #     else:
         #         # Release:
-        #         release(key)
+        #             release(key)
 
         time.sleep(0.005)
 
